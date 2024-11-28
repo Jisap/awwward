@@ -7,12 +7,17 @@ const Hero = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadedVideos, setLoadedVideos] = useState([0]);
 
-  const totalVideos = 4;
-  const nextVideodRef = useRef(null)
+  const totalVideos = 3;
+  const nextVideodRef = useRef(null);
+
+  // Calcula el índice del próximo video, ciclando entre 1 y el total de videos.
+  // El operador % garantiza que el índice se mantenga dentro de los límites del número total de videos,
+  // y el +1 ajusta el rango para empezar desde 1 en lugar de 0.
+  const upComingVideoIndex = () => (currentIndex % totalVideos) + 1;  
 
   const handleMiniVideoPlayer = () => {
     setHasClicked(true);
-    setCurrentIndex((prevIndex) => prevIndex + 1);
+    setCurrentIndex(upComingVideoIndex);
   }
 
   const getVideoSrc = (index) => `videos/hero-${index}.mp4`
@@ -20,6 +25,10 @@ const Hero = () => {
   const handleVideoLoad = () => {
     setLoadedVideos((prev) => prev + 1);
   }
+
+  
+
+  
 
   return (
     <div className='relative h-dvh w-screen overflow-x-hidden'>
