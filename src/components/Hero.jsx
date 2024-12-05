@@ -1,16 +1,18 @@
 import React, { useState, useRef } from 'react'
 import Button from './Button';
 import { TiLocationArrow } from 'react-icons/ti';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
 
 const Hero = () => {
 
-  const [currentIndex, setCurrentIndex] = useState(1);
-  const [hasClicked, setHasClicked] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [loadedVideos, setLoadedVideos] = useState([0]);
+  const [currentIndex, setCurrentIndex] = useState(1);     // Índice del video actual
+  const [hasClicked, setHasClicked] = useState(false);     // Indica si se ha pulsado el botón de reproducción
+  const [isLoading, setIsLoading] = useState(true);        // Indica si se está cargando el video actual
+  const [loadedVideos, setLoadedVideos] = useState([0]);   // Número de videos cargados
 
   const totalVideos = 3;
-  const nextVideoRef = useRef(null);
+  const nextVideoRef = useRef(null);                       // Referencia al siguiente video
 
   // Calcula el índice del próximo video, ciclando entre 1 y el total de videos.
   // El operador % garantiza que el índice se mantenga dentro de los límites del número total de videos,
@@ -28,7 +30,28 @@ const Hero = () => {
     setLoadedVideos((prev) => prev + 1);
   }
 
-  
+  useGSAP(() => {                                           // El hook useGSAP se utiliza para definir animaciones cuando cambia currentIndex:
+
+    if(hasClicked){                                         // Si se ha pulsado el boton de play, se ejecuta la animacion de video
+      gsap.set("#next-video", { visibility: "visible" });   // El video con ID #next-video se hace visible.
+      gsap.to("#next-video", {                              // Una vez visible se escala su tamaño
+        transformOrigin: "center center",                   // Define el punto de referencia para la transformación.
+        scale: 1,                                           // Escala el video a su tamaño original.
+        width: "100%",                                      // Aseguramos que el video ocupe todo el ancho y alto del contenedor.
+        height: "100%",
+        duration: 1,                                        // La animación dura 1 segundo.
+        ease: "power1.inOut",                               // La curva de "power1.inOut" hace que la animación comience lenta, acelere en el medio y desacelere al final.
+        onStart: () => nextVideoRef.current.play(),         // Tan pronto como comienza la animación, se llama a esta función, iniciando la reproducción del video al que hace referencia nextVideoRef. 
+      })
+      gsap.from("#current-video", {                         // Una vez que el video se ha escalado, el video anteriorse hace invisible.
+        transformOrigin: "center center",
+        scale: 0,
+        duration: 1.5,
+        ease: "power1.inOut",
+      })
+    }
+
+  },{dependencies:[currentIndex], revertOnUpdate: true})
 
   
 
@@ -42,11 +65,11 @@ const Hero = () => {
               className='origin-center scale-50 opacity-0 transition-all duration-500 ease-in hover:scale-100 hover:opacity-100'
             >
               <video 
+                id="current-video"
                 ref={nextVideoRef}
                 src={getVideoSrc(upComingVideoIndex)}
                 loop
                 muted
-                id="current-video"
                 className='size-64 origin-center scale-150 object-cover object-center'
                 onLoadedData={handleVideoLoad}
               />
@@ -54,11 +77,11 @@ const Hero = () => {
           </div>
 
           <video 
+            id="next-video"
             ref={nextVideoRef}
             src={getVideoSrc(currentIndex)}
             loop
             muted
-            id="next-video"
             className='absolute-center invisible absolute z-20 size-64 object-cover object-center'
             onLoadedData={handleVideoLoad}
           />
