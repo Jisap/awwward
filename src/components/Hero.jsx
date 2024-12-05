@@ -44,8 +44,8 @@ const Hero = () => {
         onStart: () => nextVideoRef.current.play(),         // Tan pronto como comienza la animación, se llama a esta función, iniciando la reproducción del video al que hace referencia nextVideoRef. 
       })
       gsap.from("#current-video", {                         // Una vez que el video se ha escalado, el video anteriorse hace invisible.
-        transformOrigin: "center center",
-        scale: 0,
+        transformOrigin: "center center",                   // desde el centro del contenedor
+        scale: 0,                                           // se le da un tamaño de cero
         duration: 1.5,
         ease: "power1.inOut",
       })
