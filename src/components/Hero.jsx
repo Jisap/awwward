@@ -15,7 +15,7 @@ const Hero = () => {
   const [loading, setLoading] = useState(true);               // Indica si se está cargando el video actual
   const [loadedVideos, setLoadedVideos] = useState([0]);      // Número de videos cargados
 
-  const totalVideos = 3;
+  const totalVideos = 4;
   const nextVideoRef = useRef(null);                          // Referencia al siguiente video
 
   const handleVideoLoad = () => {                             // Función que se ejecuta cuando el video se carga
@@ -23,7 +23,7 @@ const Hero = () => {
   }
 
   useEffect(() => {
-    if (loadedVideos >= totalVideos) {                   // Si se ha cargado el último video, se desactiva la animación de carga -> loader
+    if (loadedVideos >= totalVideos) {                        // En el html tenemos 3 videos cargados, si se ha cargado el último video, se desactiva la animación de carga
       setLoading(false);
     }
   }, [loadedVideos]);
