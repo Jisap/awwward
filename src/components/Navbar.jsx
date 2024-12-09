@@ -29,6 +29,20 @@ const Navbar = () => {
               containerClass="bg-blue-50 md:flex hidden items-center justify-center gap-1"
             />
           </div>
+
+          <div className="flex h-full items-center">
+            <div className="hidden md:block">
+              {navItems.map((item, index) => (
+                <a
+                  key={index}
+                  href={`#${item.toLowerCase()}`}
+                  className="nav-hover-btn"
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
+           </div> 
         </nav>
       </header>
     </div>
