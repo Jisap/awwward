@@ -171,7 +171,10 @@ body {
   animation-delay: calc(var(--animation-order) * 0.1s);
 }
 
-@keyframes indicator-line {
+/* La animación indicator-line realiza cambios en dos propiedades del elemento: Altura y desplazamiento vertical
+  Esto crea un efecto en el que el elemento parece crecer hacia arriba en el medio de la animación, y luego vuelve a su tamaño original.
+*/
+@keyframes indicator-line { 
   0% {
     height: 4px;
     transform: translateY(-0px);
