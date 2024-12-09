@@ -21,6 +21,14 @@ const Navbar = () => {
     setIsIndicatorActive((prev) => !prev);
   };
 
+  useEffect(() => {
+    if (isAudioPlaying) {
+      audioElementRef.current.play();
+    } else {
+      audioElementRef.current.pause();
+    }
+  }, [isAudioPlaying]);
+
   return (
     <div
       ref={navContainerRef}
@@ -28,6 +36,7 @@ const Navbar = () => {
     >
       <header className="absolute top-1/2 w-full -translate-y-1/2">
         <nav className="flex size-full items-center justify-between p-4">
+          {/* Logo y Btn de producto */}
           <div className="flex items-center gap-7">
             <img src="/img/logo.png" alt="logo" className="w-10" />
 
@@ -39,6 +48,7 @@ const Navbar = () => {
             />
           </div>
 
+          {/* Links de navegación y Btn de audio */}
           <div className="flex h-full items-center">
             <div className="hidden md:block">
               {navItems.map((item, index) => (
