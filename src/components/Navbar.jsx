@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import gsap from "gsap";
-//import { useWindowScroll } from "react-use";
+import { useWindowScroll } from "react-use";
 import { useEffect, useRef, useState } from "react";
 import { TiLocationArrow } from "react-icons/ti";
 
@@ -28,6 +28,33 @@ const Navbar = () => {
       audioElementRef.current.pause();
     }
   }, [isAudioPlaying]);
+
+  const { y: currentScrollY } = useWindowScroll();
+  const [isNavVisible, setIsNavVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    if(currentScrollY === 0){                                       // Si el scroll es 0 
+      setIsNavVisible(true);                                        // navVisible se pone a true -> y: 0 y opacity: 1 (se muestra el navbar)
+      navContainerRef.current.classList.remove("floating-nav");     // y se elimina la clase floating-nav que pone un fondo negro al navbar
+    } else if (currentScrollY > lastScrollY) {                      // Si el scroll es mayor que el anterior (empieza en cero)
+      setIsNavVisible(false);                                       // navVisible se pone a false -> y: -100 y opacity: 0 (se oculta el navbar)
+      navContainerRef.current.classList.add("floating-nav");        // y se añade la clase floating-nav que pone un fondo negro al navbar
+    } else if (currentScrollY < lastScrollY) {                      // Si el scroll es menor que el anterior
+      setIsNavVisible(true);                                        // navVisible se pone a true
+      navContainerRef.current.classList.add("floating-nav");        // y se añade la clase floating-nav que pone un fondo negro al navbar
+    }
+
+    setLastScrollY(currentScrollY);                                 // Se actualiza el ultimo scroll con la posición actual
+  },[currentScrollY]);
+
+  useEffect(() => {
+    gsap.to(navContainerRef.current, { 
+      y: isNavVisible ? 0 : -100,
+      opacity: isNavVisible ? 1 : 0,
+      duration: 0.2,
+    });
+  }, [isNavVisible]);
 
   return (
     <div
