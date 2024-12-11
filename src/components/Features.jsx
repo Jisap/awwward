@@ -6,7 +6,7 @@ const BentoTilt = ({ children, className='' }) => {
   const [transformStyle, setTransformStyle] = useState("");
   const itemRef = useRef(null);
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (event) => {
     if (!itemRef.current) return;                                   // evitar que se ejecute el evento si el elemento no existe
 
     const { left, top, width, height } =                            // Aquí se obtienen las coordenadas (left y top) y las dimensiones (width y height) del elemento dentro del viewport.
