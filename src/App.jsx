@@ -17,7 +17,6 @@ const App = () => {
       <Story />
       <Contact />
       <Footer />
-      <section className='z-0 min-h-screen bg-blue-500'/>
     </main>
   )
 }
